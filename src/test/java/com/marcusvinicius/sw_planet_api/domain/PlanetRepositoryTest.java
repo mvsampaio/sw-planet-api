@@ -1,6 +1,5 @@
 package com.marcusvinicius.sw_planet_api.domain;
 
-import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import java.util.Optional;
 import static com.marcusvinicius.sw_planet_api.common.PlanetConstants.PLANET;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 
 @DataJpaTest
 public class PlanetRepositoryTest {
@@ -75,6 +75,23 @@ public class PlanetRepositoryTest {
     @Test
     public void getPlanet_ByUnexistingId_ReturnsEmpty() {
         Optional<Planet> sut = planetRepository.findById(99L);
+
+        assertThat(sut).isEmpty();
+    }
+
+    @Test
+    public void getPlanet_ByExistingName_ReturnsPlanet() {
+        Planet planet = testEntityManager.persistFlushFind(PLANET);
+
+        Optional<Planet> sut = planetRepository.findByName(PLANET.getName());
+
+        assertThat(sut).isNotNull();
+        assertThat(sut.get()).isEqualTo(planet);
+    }
+
+    @Test
+    public void getPlanet_ByUnexistingName_ReturnsNotFound() {
+        Optional<Planet> sut = planetRepository.findByName(any());
 
         assertThat(sut).isEmpty();
     }
