@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Example;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 import static com.marcusvinicius.sw_planet_api.common.PlanetConstants.INVALID_PLANET;
@@ -15,6 +14,7 @@ import static com.marcusvinicius.sw_planet_api.common.PlanetConstants.PLANET;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -82,7 +82,7 @@ public class PlanetServiceTest {
 
     @Test
     public void listPlanets_ReturnAllPlanets() {
-        List<Planet> planets = Arrays.asList(PLANET);
+        List<Planet> planets = List.of(PLANET);
 
         Example<Planet> query = QueryBuilder.makeQuery(new Planet(PLANET.getClimate(), PLANET.getTerrain()));
         when(planetRepository.findAll(query)).thenReturn(planets);
@@ -102,5 +102,17 @@ public class PlanetServiceTest {
         List<Planet> sut = planetService.list(PLANET.getClimate(), PLANET.getTerrain());
 
         assertThat(sut).isEmpty();
+    }
+
+    @Test
+    public void removePlanet_WithExistingId_doesNotThrowAnyException() {
+        assertThatCode(() -> planetService.remove(1L)).doesNotThrowAnyException();
+    }
+
+    @Test
+    public void removePlanet_WithUnexistingId_ThrowsException() {
+        doThrow(new RuntimeException()).when(planetRepository).deleteById(99L);
+
+        assertThatThrownBy(() -> planetService.remove(99L)).isInstanceOf(RuntimeException.class);
     }
 }
