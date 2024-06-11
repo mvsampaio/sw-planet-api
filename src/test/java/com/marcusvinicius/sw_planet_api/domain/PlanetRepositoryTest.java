@@ -40,4 +40,17 @@ public class PlanetRepositoryTest {
         assertThatThrownBy(() -> planetRepository.save(emptyPlanet)).isInstanceOf(RuntimeException.class);
         assertThatThrownBy(() -> planetRepository.save(invalidPlanet)).isInstanceOf(RuntimeException.class);
     }
+
+    @Test
+    public void createPlanet_WithExistingName_ThrowsException() {
+        // persistFlushFind: Salva, atualiza e retorna do banco.
+        Planet planet = testEntityManager.persistFlushFind(PLANET);
+        // detach: Retira este objeto (planet) da sessão de gerenciamento do TestEntityManager.
+        // Objetivo: Evitar que seja realizado um UPDATE ao invés do INSERT nos testes seguintes.
+        testEntityManager.detach(planet);
+        // Retirar o id para reaproveitar o mesmo objeto para testar a segunda inserção.
+        planet.setId(null);
+
+        assertThatThrownBy(() -> planetRepository.save(planet)).isInstanceOf(RuntimeException.class);
+    }
 }
