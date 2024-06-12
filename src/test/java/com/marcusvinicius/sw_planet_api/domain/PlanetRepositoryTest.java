@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.domain.Example;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -15,6 +16,7 @@ import static com.marcusvinicius.sw_planet_api.common.PlanetConstants.PLANET;
 import static com.marcusvinicius.sw_planet_api.common.PlanetConstants.TATOOINE;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 
 @DataJpaTest
 public class PlanetRepositoryTest {
@@ -122,5 +124,20 @@ public class PlanetRepositoryTest {
         List<Planet> response = planetRepository.findAll(query);
 
         assertThat(response).isEmpty();
+    }
+
+    @Test
+    public void removePlanet_WithExistingId_RemovesPlanetFromDatabase() {
+        Planet planet = testEntityManager.persistFlushFind(PLANET);
+
+        planetRepository.deleteById(planet.getId());
+
+        Planet removedPlanet = testEntityManager.find(Planet.class, planet.getId());
+        assertThat(removedPlanet).isNull();
+    }
+
+    @Test
+    public void removePlanet_WithNullId_ThrowsException() {
+        assertThatThrownBy(() -> planetRepository.deleteById(null)).isInstanceOf(InvalidDataAccessApiUsageException.class);
     }
 }
