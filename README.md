@@ -2,8 +2,7 @@
   StarWars Planet API (sw-planet-api)
 </h1>
 
-<p align="center">
-  <img src="https://img.shields.io/static/v1?label=Licença&message=MIT&color=8257E5&labelColor=000000">
+<p align="center">  
   <img src="https://img.shields.io/static/v1?label=Curso na Udemy&message=Testes automatizados na prática com Spring Boot&color=8257E5&labelColor=000000" alt="Testes automatizados na prática com Spring Boot" />
 </p>
 
