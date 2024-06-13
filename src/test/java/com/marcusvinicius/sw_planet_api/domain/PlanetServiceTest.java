@@ -12,8 +12,7 @@ import java.util.*;
 import static com.marcusvinicius.sw_planet_api.common.PlanetConstants.INVALID_PLANET;
 import static com.marcusvinicius.sw_planet_api.common.PlanetConstants.PLANET;
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 

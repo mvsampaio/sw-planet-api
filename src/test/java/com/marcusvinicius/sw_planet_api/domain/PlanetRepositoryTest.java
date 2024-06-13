@@ -15,7 +15,6 @@ import java.util.Optional;
 import static com.marcusvinicius.sw_planet_api.common.PlanetConstants.PLANET;
 import static com.marcusvinicius.sw_planet_api.common.PlanetConstants.TATOOINE;
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 
 @DataJpaTest
 public class PlanetRepositoryTest {
@@ -95,7 +94,8 @@ public class PlanetRepositoryTest {
 
     @Test
     public void getPlanet_ByUnexistingName_ReturnsNotFound() {
-        Optional<Planet> sut = planetRepository.findByName(any());
+        final String name = "Unexisting name";
+        Optional<Planet> sut = planetRepository.findByName(name);
 
         assertThat(sut).isEmpty();
     }
