@@ -16,7 +16,6 @@ import static com.marcusvinicius.sw_planet_api.common.PlanetConstants.PLANET;
 import static com.marcusvinicius.sw_planet_api.common.PlanetConstants.TATOOINE;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
 
 @DataJpaTest
 public class PlanetRepositoryTest {
