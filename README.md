@@ -36,7 +36,7 @@ O projeto requer um banco de dados Mysql, então é necessário criar uma base d
 ```
 $ sudo mysql
 
-CREATE USER 'user'@'%' IDENTIFIED BY '123456';
+CREATE USER 'root'@'%' IDENTIFIED BY 'root';
 GRANT ALL PRIVILEGES ON *.* TO 'user'@'%' WITH GRANT OPTION;
 
 exit
