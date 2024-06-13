@@ -8,7 +8,7 @@
 
 <br>
 
-## ✨ Technologies
+## ✨ Tecnologias
 
 - [Mysql](https://dev.mysql.com/downloads/mysql/)
 - [Java](https://www.oracle.com/java/technologies/downloads/)
